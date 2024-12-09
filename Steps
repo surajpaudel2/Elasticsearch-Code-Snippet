@@ -1,0 +1,26 @@
+Step 1 : In application.properties file configure the required things like url of the elasticsearch, username and
+password (whatever are required).
+
+Step 2 : After that create the bean by configuring in ElasticSearchConfig Class :
+    CODE :
+        @Configuration
+        public class ElasticsearchConfig {
+
+            @Bean
+            public ElasticsearchClient elasticsearchClient() {
+                RestClient restClient = RestClient.builder(
+                        new HttpHost("localhost", 9200) // Replace with your Elasticsearch host and port
+                ).build();
+
+                // Create the transport with a Jackson mapper
+                RestClientTransport transport = new RestClientTransport(
+                        restClient, new JacksonJsonpMapper()
+                );
+
+                // Create the Elasticsearch client
+                return new ElasticsearchClient(transport);
+            }
+        }
+
+
+Step 3 : Implement the service class.  
